@@ -30,12 +30,14 @@ export const userControllers = {
   handleEditUser: async (req: Request, res: Response) => {
     try {
       const { id } = req.params;
-      const { username, first_name, last_name, bio } = req.body;
+      const { username, email, password, first_name, last_name, bio } = req.body;
 
       const editUser = await User.findByIdAndUpdate(
         id,
         {
           username,
+          email,
+          password,
           first_name,
           last_name,
           bio,
