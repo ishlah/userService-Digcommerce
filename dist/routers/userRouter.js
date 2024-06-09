@@ -16,4 +16,4 @@ exports.userRouter.patch("/api/users/payment-details/:id", userController_1.user
 //Just for trying
 exports.userRouter.get("/api/users/", userController_1.userControllers.handleGetUsers);
 // Get User By Email
-exports.userRouter.get("/api/userEmail", userController_1.userControllers.handleLoginByEmail);
+exports.userRouter.post("/api/userEmail", userController_1.userControllers.handleLoginByEmail);
