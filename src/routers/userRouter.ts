@@ -19,4 +19,4 @@ userRouter.patch(
 userRouter.get("/api/users/", userControllers.handleGetUsers);
 
 // Get User By Email
-userRouter.get("/api/userEmail", userControllers.handleLoginByEmail);
+userRouter.post("/api/userEmail", userControllers.handleLoginByEmail);
