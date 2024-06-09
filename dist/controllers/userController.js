@@ -40,9 +40,11 @@ exports.userControllers = {
     handleEditUser: (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         try {
             const { id } = req.params;
-            const { username, first_name, last_name, bio } = req.body;
+            const { username, email, password, first_name, last_name, bio } = req.body;
             const editUser = yield userModel_1.User.findByIdAndUpdate(id, {
                 username,
+                email,
+                password,
                 first_name,
                 last_name,
                 bio,
