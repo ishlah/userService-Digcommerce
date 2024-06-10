@@ -1,5 +1,6 @@
 import type { Request, Response } from "express";
 import { User } from "../models/userModel";
+import bcrypt from "bcrypt";
 
 export const userControllers = {
   handleGetUsers: async (req: Request, res: Response) => {
@@ -11,10 +12,12 @@ export const userControllers = {
       const { username, email, password, first_name, last_name, bio } =
         req.body;
 
+      const hashedpassword = await bcrypt.hash(password, 12);
+
       const newUser = new User({
         username,
         email,
-        password,
+        password: hashedpassword,
         first_name,
         last_name,
         bio,
@@ -35,13 +38,14 @@ export const userControllers = {
       const { id } = req.params;
       const { username, email, password, first_name, last_name, bio } =
         req.body;
+      const hashedpassword = await bcrypt.hash(password, 12);
 
       const editUser = await User.findByIdAndUpdate(
         id,
         {
           username,
           email,
-          password,
+          password: hashedpassword,
           first_name,
           last_name,
           bio,
