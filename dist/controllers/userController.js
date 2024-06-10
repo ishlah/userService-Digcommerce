@@ -23,11 +23,11 @@ exports.userControllers = {
     handleCreateUser: (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         try {
             const { username, email, password, first_name, last_name, bio } = req.body;
-            const hashedPassword = yield bcrypt_1.default.hash(password, 12);
+            const hashedpassword = yield bcrypt_1.default.hash(password, 12);
             const newUser = new userModel_1.User({
                 username,
                 email,
-                password: hashedPassword,
+                password: hashedpassword,
                 first_name,
                 last_name,
                 bio,
@@ -47,11 +47,11 @@ exports.userControllers = {
         try {
             const { id } = req.params;
             const { username, email, password, first_name, last_name, bio } = req.body;
-            const hashedPassword = yield bcrypt_1.default.hash(password, 12);
+            const hashedpassword = yield bcrypt_1.default.hash(password, 12);
             const editUser = yield userModel_1.User.findByIdAndUpdate(id, {
                 username,
                 email,
-                password: hashedPassword,
+                password: hashedpassword,
                 first_name,
                 last_name,
                 bio,
