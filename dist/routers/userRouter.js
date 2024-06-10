@@ -17,3 +17,5 @@ exports.userRouter.patch("/api/users/payment-details/:id", userController_1.user
 exports.userRouter.get("/api/users/", userController_1.userControllers.handleGetUsers);
 // Get User By Email
 exports.userRouter.post("/api/userEmail", userController_1.userControllers.handleLoginByEmail);
+// Delet User
+exports.userRouter.delete("/api/users/:id", userController_1.userControllers.handleDeletUser);

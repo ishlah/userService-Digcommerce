@@ -8,9 +8,13 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.userControllers = void 0;
 const userModel_1 = require("../models/userModel");
+const bcrypt_1 = __importDefault(require("bcrypt"));
 exports.userControllers = {
     handleGetUsers: (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         const allUser = yield userModel_1.User.find();
@@ -19,15 +23,17 @@ exports.userControllers = {
     handleCreateUser: (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         try {
             const { username, email, password, first_name, last_name, bio } = req.body;
+            const hashedPassword = yield bcrypt_1.default.hash(password, 12);
             const newUser = new userModel_1.User({
                 username,
                 email,
-                password,
+                password: hashedPassword,
                 first_name,
                 last_name,
                 bio,
                 created_at: new Date(),
             });
+            // Save the new user to the database
             const user = yield newUser.save();
             return res
                 .status(201)
@@ -41,10 +47,11 @@ exports.userControllers = {
         try {
             const { id } = req.params;
             const { username, email, password, first_name, last_name, bio } = req.body;
+            const hashedPassword = yield bcrypt_1.default.hash(password, 12);
             const editUser = yield userModel_1.User.findByIdAndUpdate(id, {
                 username,
                 email,
-                password,
+                password: hashedPassword,
                 first_name,
                 last_name,
                 bio,
@@ -91,4 +98,11 @@ exports.userControllers = {
             res.status(500).json({ message: "Error" });
         }
     }),
+    handleDeletUser: function (req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const { id } = req.params;
+            yield userModel_1.User.findByIdAndDelete(id);
+            res.status(200).json({ message: "Delet succes" });
+        });
+    },
 };
