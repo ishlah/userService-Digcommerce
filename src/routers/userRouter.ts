@@ -20,3 +20,6 @@ userRouter.get("/api/users/", userControllers.handleGetUsers);
 
 // Get User By Email
 userRouter.post("/api/userEmail", userControllers.handleLoginByEmail);
+
+// Delet User
+userRouter.delete("/api/users/:id", userControllers.handleDeletUser);

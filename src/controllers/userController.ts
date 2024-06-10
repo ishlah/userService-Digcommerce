@@ -1,5 +1,6 @@
 import type { Request, Response } from "express";
 import { User } from "../models/userModel";
+import bcrypt from "bcrypt";
 
 export const userControllers = {
   handleGetUsers: async (req: Request, res: Response) => {
@@ -10,15 +11,19 @@ export const userControllers = {
     try {
       const { username, email, password, first_name, last_name, bio } =
         req.body;
+      const hashedPassword = await bcrypt.hash(password, 12);
+
       const newUser = new User({
         username,
         email,
-        password,
+        password: hashedPassword,
         first_name,
         last_name,
         bio,
         created_at: new Date(),
       });
+
+      // Save the new user to the database
       const user = await newUser.save();
       return res
         .status(201)
@@ -30,14 +35,16 @@ export const userControllers = {
   handleEditUser: async (req: Request, res: Response) => {
     try {
       const { id } = req.params;
-      const { username, email, password, first_name, last_name, bio } = req.body;
+      const { username, email, password, first_name, last_name, bio } =
+        req.body;
+      const hashedPassword = await bcrypt.hash(password, 12);
 
       const editUser = await User.findByIdAndUpdate(
         id,
         {
           username,
           email,
-          password,
+          password: hashedPassword,
           first_name,
           last_name,
           bio,
@@ -92,5 +99,10 @@ export const userControllers = {
     } catch (err) {
       res.status(500).json({ message: "Error" });
     }
+  },
+  handleDeletUser: async function (req: Request, res: Response) {
+    const { id } = req.params;
+    await User.findByIdAndDelete(id);
+    res.status(200).json({ message: "Delet succes" });
   },
 };
