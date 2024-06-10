@@ -11,12 +11,12 @@ export const userControllers = {
     try {
       const { username, email, password, first_name, last_name, bio } =
         req.body;
-      const hashedPassword = await bcrypt.hash(password, 12);
+      const hashedpassword = await bcrypt.hash(password, 12);
 
       const newUser = new User({
         username,
         email,
-        password: hashedPassword,
+        password: hashedpassword,
         first_name,
         last_name,
         bio,
@@ -37,14 +37,14 @@ export const userControllers = {
       const { id } = req.params;
       const { username, email, password, first_name, last_name, bio } =
         req.body;
-      const hashedPassword = await bcrypt.hash(password, 12);
+      const hashedpassword = await bcrypt.hash(password, 12);
 
       const editUser = await User.findByIdAndUpdate(
         id,
         {
           username,
           email,
-          password: hashedPassword,
+          password: hashedpassword,
           first_name,
           last_name,
           bio,
